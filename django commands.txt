@@ -1,0 +1,16 @@
+django commands
+
+terminalga
+
+python manage.py makemigrations         -- make mig
+python manage.py migrate		-- make up
+python manage.py createsuperuser
+python manage.py startapp apps
+python manage.py runserver 0:8002       --portini almashtiradi
+
+
+
+terminalga
+postgres da database yaratish
+
+docker exec -itu postgres my_postgres psql -c "create database database_name"

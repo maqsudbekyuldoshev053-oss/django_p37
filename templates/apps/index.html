@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Universities</title>
+</head>
+<body>
+<h4>salom</h4>
+{% for student in studentss %}
+    {{ student.id }} - {{ student.first_name }} - {{ student.last_name }} - ({{ student.university.name }}) <br>
+{% endfor %}
+<hr>
+
+
+{% for university in universities %}
+    {{ university.id }} - {{ university.name }} - {{ university.established_year }} - {{ university.address }} <br>
+{% endfor %}
+<hr>
+
+
+{% for product in products %}
+    {{ product }}
+{% endfor %}
+<hr>
+
+{% for student in students %}
+    {{ student.id }} - {{ student.name }} - {{ student.email }} <br>
+
+{% endfor %}
+
+
+</body>
+</html>

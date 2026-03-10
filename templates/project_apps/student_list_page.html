@@ -1,0 +1,222 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{% static 'apps/img/img_1.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1200px;
+            margin: 50px auto;
+            text-align: center;
+            background: rgba(255,255,255,0.9); /* jadval va content uchun kontrast */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 42px; /* title kattalashdi */
+        }
+
+        .header .add-btn {
+            position: absolute;
+            right: 0;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .header .add-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Search input - title ostida */
+        .search-container {
+            margin: 15px 0 30px 0;
+        }
+
+        .search-container input {
+            padding: 8px 12px;
+            font-size: 16px; /* kattaroq input */
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            width: 250px;
+            max-width: 80%;
+        }
+
+        .search-container button {
+            padding: 8px 15px;
+            font-size: 16px; /* kattaroq button */
+            border-radius: 5px;
+            border: none;
+            background-color: #2196F3;
+            color: white;
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        .search-container button:hover {
+            background-color: #1976D2;
+        }
+
+        /* Jadval */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            font-size: 14px;
+            min-width: 700px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        /* Edit tugma */
+        a.edit-link {
+            color: #2196F3;
+            text-decoration: none;
+            font-size: 12px;
+            margin-right: 5px;
+            padding: 4px 8px;
+            background-color: #e0f0ff;
+            border-radius: 4px;
+            border: 1px solid #2196F3;
+            font-weight: bold;
+        }
+
+        a.edit-link:hover {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        /* Delete tugma */
+        button.delete-btn {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        button.delete-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        /* Back button */
+        a.back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 6px 14px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        a.back-btn:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+        <h1>Student List</h1>
+        <a href="{% url 'student_add' %}" class="add-btn">Add Student</a>
+    </div>
+
+    <!-- Search input title ostida -->
+    <div class="search-container">
+        <form method="get">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search by ID, name or university...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="table-responsive">
+        <table>
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Phone</th>
+                <th>Birth date</th>
+                <th>University</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for student in students %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ student.first_name }}</td>
+                    <td>{{ student.last_name }}</td>
+                    <td>{{ student.phone }}</td>
+                    <td>{{ student.birth_date }}</td>
+                    <td>{{ student.university }}</td>
+                    <td>
+                        <a href="{% url 'student_detail_page' student.pk %}" class="edit-link">Edit</a>
+                        <form action="{% url 'student_delete' student.pk %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-btn" onclick="return confirm('Are you sure?')">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="7">Studentlar yo'q</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

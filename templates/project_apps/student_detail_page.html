@@ -1,0 +1,119 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Student</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url("{% static 'apps/img/img_1.png' %}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Container markazda */
+        .container {
+            background: rgba(255,255,255,0.95); /* biroz shaffof */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            margin: 50px auto;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        form label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        form input, form select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Edit Student</h2>
+    <form method="post">
+        {% csrf_token %}
+
+        <label>First Name:</label>
+        <input type="text" name="first_name" value="{{ student.first_name }}" required>
+
+        <label>Last Name:</label>
+        <input type="text" name="last_name" value="{{ student.last_name }}" required>
+
+        <label>Phone:</label>
+        <input type="text" name="phone" value="{{ student.phone }}" required>
+
+        <label>Birth Date:</label>
+        <input type="date" name="birth_date" value="{{ student.birth_date|date:'Y-m-d' }}" required>
+
+        <label>University:</label>
+        <select name="university" required>
+            {% for uni in universities %}
+                <option value="{{ uni.id }}" {% if uni.id == student.university.id %}selected{% endif %}>
+                    {{ uni.name }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <a href="{% url 'student_list_page' %}" class="back-btn">Back to List</a>
+</div>
+
+</body>
+</html>
