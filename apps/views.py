@@ -4,7 +4,7 @@ from .models import Student, University
 
 
 def student_list_page(request):
-    query = request.GET.get('q', '')  # qidiruv so‘rovi
+    query = request.GET.get('q', '')
     if query:
         students = Student.objects.filter(
             first_name__icontains=query
